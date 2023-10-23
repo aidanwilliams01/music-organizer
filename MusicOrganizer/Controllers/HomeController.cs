@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using FriendLetter.Models;
+using MusicOrganizer.Models;
 
-namespace FriendLetter.Controllers
+namespace MusicOrganizer.Controllers
 {
   public class HomeController : Controller
   {
