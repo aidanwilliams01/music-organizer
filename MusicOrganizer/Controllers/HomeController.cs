@@ -6,7 +6,10 @@ namespace MusicOrganizer.Controllers
   public class HomeController : Controller
   {
 
-    // [Route("/hello")]
-    // public string Hello() { return "Hello friend!"; }
+    [HttpGet("/")]
+    public ActionResult Index()
+    {
+      return View();
+    }
   }
 }

@@ -34,7 +34,7 @@ namespace MusicOrganizer.Tests
     }
 
     [TestMethod]
-    public void GetId_ItemsInstantiateWithAnIdAndGetterReturns_Int()
+    public void GetId_AlbumsInstantiateWithAnIdAndGetterReturns_Int()
     {
       string title = "test";
       Artist newArtist = new Artist(title);
@@ -51,6 +51,19 @@ namespace MusicOrganizer.Tests
       Artist newArtist2 = new Artist(artist02);
       Artist result = Artist.Find(2);
       Assert.AreEqual(newArtist2, result);
+    }
+
+    [TestMethod]
+    public void AddAlbum_AssociatesAlbumWithArtist_AlbumList()
+    {
+      string album = "test";
+      Album newAlbum = new Album(album);
+      List<Album> newList = new List<Album> { newAlbum };
+      string name = "test";
+      Artist newArtist = new Artist(name);
+      newArtist.AddAlbum(newAlbum);
+      List<Album> result = newArtist.Albums;
+      CollectionAssert.AreEqual(newList, result);
     }
   }
 }

@@ -7,12 +7,15 @@ namespace MusicOrganizer.Models
     private static List<Artist> _instances = new List<Artist> {};
     public string Name { get; set; }
     public int Id { get; }
+    
+    public List<Album> Albums { get; set; }
 
     public Artist(string name)
     {
       Name = name;
       _instances.Add(this);
       Id = _instances.Count;
+      Albums = new List<Album>{};
     }
 
     public static void ClearAll()
@@ -28,6 +31,11 @@ namespace MusicOrganizer.Models
     public static Artist Find(int searchId)
     {
       return _instances[searchId-1];
+    }
+
+    public void AddAlbum(Album album)
+    {
+      Albums.Add(album);
     }
   }
 }
