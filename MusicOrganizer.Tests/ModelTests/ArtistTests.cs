@@ -57,7 +57,7 @@ namespace MusicOrganizer.Tests
     public void AddAlbum_AssociatesAlbumWithArtist_AlbumList()
     {
       string album = "test";
-      Album newAlbum = new Album(album);
+      Album newAlbum = new Album(album, "test");
       List<Album> newList = new List<Album> { newAlbum };
       string name = "test";
       Artist newArtist = new Artist(name);

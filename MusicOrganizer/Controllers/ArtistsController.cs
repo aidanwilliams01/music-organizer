@@ -28,11 +28,11 @@ namespace MusicOrganizer.Controllers
     }
 
     [HttpPost("/artists/{artistId}/albums")]
-    public ActionResult Create(int artistId, string albumTitle)
+    public ActionResult Create(int artistId, string albumTitle, string artURL)
     {
       Dictionary<string, object> model = new Dictionary<string, object>();
       Artist foundArtist = Artist.Find(artistId);
-      Album newAlbum = new Album(albumTitle);
+      Album newAlbum = new Album(albumTitle, artURL);
       foundArtist.AddAlbum(newAlbum);
       List<Album> artistAlbums = foundArtist.Albums;
       model.Add("albums", artistAlbums);

@@ -17,7 +17,7 @@ namespace MusicOrganizer.Tests
     [TestMethod]
     public void AlbumConstructor_CreatesInstanceOfAlbum_Album()
     {
-      Album newAlbum = new Album("test");
+      Album newAlbum = new Album("test", "test");
       Assert.AreEqual(typeof(Album), newAlbum.GetType());
     }
 
@@ -26,8 +26,8 @@ namespace MusicOrganizer.Tests
     {
       string title01 = "test";
       string title02 = "test2";
-      Album newAlbum1 = new Album(title01);
-      Album newAlbum2 = new Album(title02);
+      Album newAlbum1 = new Album(title01, "test");
+      Album newAlbum2 = new Album(title02, "test");
       List<Album> newList = new List<Album> { newAlbum1, newAlbum2 };
       List<Album> result = Album.GetAll();
       CollectionAssert.AreEqual(newList, result);
@@ -37,7 +37,7 @@ namespace MusicOrganizer.Tests
     public void GetId_ItemsInstantiateWithAnIdAndGetterReturns_Int()
     {
       string title = "test";
-      Album newAlbum = new Album(title);
+      Album newAlbum = new Album(title, "test");
       int result = newAlbum.Id;
       Assert.AreEqual(1, result);
     }
@@ -47,8 +47,8 @@ namespace MusicOrganizer.Tests
     {
       string album01 = "test";
       string album02 = "test2";
-      Album newAlbum1 = new Album(album01);
-      Album newAlbum2 = new Album(album02);
+      Album newAlbum1 = new Album(album01, "test");
+      Album newAlbum2 = new Album(album02, "test");
       Album result = Album.Find(2);
       Assert.AreEqual(newAlbum2, result);
     }
