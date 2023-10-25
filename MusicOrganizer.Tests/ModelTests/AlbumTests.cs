@@ -41,5 +41,16 @@ namespace MusicOrganizer.Tests
       int result = newAlbum.Id;
       Assert.AreEqual(1, result);
     }
+
+    [TestMethod]
+    public void Find_ReturnsCorrectAlbum_Album()
+    {
+      string album01 = "test";
+      string album02 = "test2";
+      Album newAlbum1 = new Album(album01);
+      Album newAlbum2 = new Album(album02);
+      Album result = Album.Find(2);
+      Assert.AreEqual(newAlbum2, result);
+    }
   }
 }
