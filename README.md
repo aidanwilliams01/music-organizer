@@ -1,6 +1,4 @@
-# (Application Name)
-
-#### (Brief description of application)
+# Music Organizer
 
 #### By Aidan Williams
 
@@ -11,6 +9,8 @@
 * _MSTest_
 
 ## Description
+
+A website where users can keep track of artists and albums.
 
 ## Setup Instructions
 
