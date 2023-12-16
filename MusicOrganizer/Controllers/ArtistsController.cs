@@ -1,54 +1,101 @@
+using System.Linq;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using MusicOrganizer.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MusicOrganizer.Controllers
 {
   public class ArtistsController : Controller
   {
+    private readonly MusicOrganizerContext _db;
 
-    [HttpGet("/artists")]
-    public ActionResult Index()
+    public ArtistsController(MusicOrganizerContext db)
     {
-      List<Artist> allArtists = Artist.GetAll();
-      return View(allArtists);
+      _db = db;
     }
 
-    [HttpGet("/artists/new")]
-    public ActionResult New()
+    public ActionResult Index()
+    {
+      List<Artist> model = _db.Artists.ToList();
+      return View(model);
+    }
+
+    public ActionResult Create()
     {
       return View();
     }
 
-    [HttpPost("/artists")]
-    public ActionResult Create(string artistName)
+    [HttpPost]
+    public ActionResult Create(Artist artist)
     {
-      Artist newArtist = new Artist(artistName);
+      if (!ModelState.IsValid)
+      {
+        return View(artist);
+      }
+      _db.Artists.Add(artist);
+      _db.SaveChanges();
       return RedirectToAction("Index");
     }
 
-    [HttpPost("/artists/{artistId}/albums")]
-    public ActionResult Create(int artistId, string albumTitle, string artURL)
+    public ActionResult Details(int id)
     {
-      Dictionary<string, object> model = new Dictionary<string, object>();
-      Artist foundArtist = Artist.Find(artistId);
-      Album newAlbum = new Album(albumTitle, artURL);
-      foundArtist.AddAlbum(newAlbum);
-      List<Album> artistAlbums = foundArtist.Albums;
-      model.Add("albums", artistAlbums);
-      model.Add("artist", foundArtist);
-      return View("Show", model);
+      Artist thisArtist = _db.Artists
+                                  .Include(artist => artist.JoinEntities)
+                                  .ThenInclude(join => join.Album)
+                                  .FirstOrDefault(artist => artist.ArtistId == id);
+      return View(thisArtist);
     }
 
-    [HttpGet("/artists/{id}")]
-    public ActionResult Show(int id)
+    public ActionResult AddAlbum(int id)
     {
-      Dictionary<string, object> model = new Dictionary<string, object>();
-      Artist selectedArtist = Artist.Find(id);
-      List<Album> artistAlbums = selectedArtist.Albums;
-      model.Add("artist", selectedArtist);
-      model.Add("albums", artistAlbums);
-      return View(model);
+      Artist thisArtist = _db.Artists.FirstOrDefault(artists => artists.ArtistId == id);
+      ViewBag.AlbumId = new SelectList(_db.Albums, "AlbumId", "Name");
+      return View(thisArtist);
+    }
+
+    [HttpPost]
+    public ActionResult AddAlbum(Artist artist, int albumId)
+    {
+      #nullable enable
+      AlbumArtist? joinEntity = _db.AlbumArtists.FirstOrDefault(join => (join.AlbumId == albumId && join.ArtistId == artist.ArtistId));
+      #nullable disable
+      if (joinEntity == null && albumId != 0)
+      {
+        _db.AlbumArtists.Add(new AlbumArtist() { AlbumId = albumId, ArtistId = artist.ArtistId });
+        _db.SaveChanges();
+      }
+      return RedirectToAction("Details", new { id = artist.ArtistId });
+    }
+
+    public ActionResult Edit(int id)
+    {
+      Artist thisArtist = _db.Artists.FirstOrDefault(artist => artist.ArtistId == id);
+      return View(thisArtist);
+    }
+
+    [HttpPost]
+    public ActionResult Edit(Artist artist)
+    {
+      _db.Artists.Update(artist);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
+
+    public ActionResult Delete(int id)
+    {
+      Artist thisArtist = _db.Artists.FirstOrDefault(artist => artist.ArtistId == id);
+      return View(thisArtist);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    public ActionResult DeleteConfirmed(int id)
+    {
+      Artist thisArtist = _db.Artists.FirstOrDefault(artist => artist.ArtistId == id);
+      _db.Artists.Remove(thisArtist);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
     }
   }
 }

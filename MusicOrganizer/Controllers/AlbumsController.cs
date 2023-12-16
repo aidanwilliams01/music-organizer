@@ -1,35 +1,51 @@
+using System.Linq;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using MusicOrganizer.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace MusicOrganizer.Controllers
+namespace Registrar.Controllers
 {
   public class AlbumsController : Controller
   {
+    private readonly MusicOrganizerContext _db;
 
-    [HttpGet("/albums")]
+    public AlbumsController(MusicOrganizerContext db)
+    {
+      _db = db;
+    }
+
     public ActionResult Index()
     {
-      List<Album> allAlbums = Album.GetAll();
-      return View(allAlbums);
-    }
-
-    [HttpGet("/artists/{artistId}/albums/new")]
-    public ActionResult New(int artistId)
-    {
-      Artist artist = Artist.Find(artistId);
-      return View(artist);
-    }
-
-    [HttpGet("/artists/{artistId}/albums/{albumId}")]
-    public ActionResult Show(int artistId, int albumId)
-    {
-      Album album = Album.Find(albumId);
-      Artist artist = Artist.Find(artistId);
-      Dictionary<string, object> model = new Dictionary<string, object>();
-      model.Add("album", album);
-      model.Add("artist", artist);
+      List<Album> model = _db.Albums
+                            .ToList();
       return View(model);
+    }
+
+    public ActionResult Create()
+    {
+      return View();
+    }
+
+    [HttpPost]
+    public ActionResult Create(Album album)
+    {
+      if (!ModelState.IsValid)
+      {
+        return View(album);
+      }
+      _db.Albums.Add(album);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
+
+    public ActionResult Details(int id)
+    {
+      Album thisAlbum = _db.Albums
+                          .Include(album => album.JoinEntities)
+                          .ThenInclude(join => join.Artist)
+                          .FirstOrDefault(album => album.AlbumId == id);
+      return View(thisAlbum);
     }
   }
 }
