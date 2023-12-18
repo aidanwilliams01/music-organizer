@@ -1,0 +1,30 @@
+@{
+  Layout = "_Layout";
+}
+
+@model MusicOrganizer.Models.Artist
+@using MusicOrganizer.Models
+@using System.Collections.Generic;
+
+<h2>Artist Details</h2>
+<hr />
+<h3>@Html.DisplayNameFor(model => model.Name): @Html.DisplayFor(model => model.Name)</h3>
+
+@if(@Model.JoinEntities.Count == 0)
+{
+  <p>This artist does not have any albums</p>
+}
+else
+{
+  <h4>This artist has the following albums:</h4>
+  <ul>
+    @foreach(AlbumArtist join in Model.JoinEntities)
+    {
+      <li>@join.Album.Title</li>
+    }
+  </ul>
+}
+<p>@Html.ActionLink("Back to list", "Index")</p>
+<p>@Html.ActionLink("Add an album", "AddAlbum", new { id = Model.ArtistId })</p>
+<p>@Html.ActionLink("Edit artist", "Edit", new { id = Model.ArtistId })</p>
+<p>@Html.ActionLink("Delete artist", "Delete", new { id = Model.ArtistId })</p>

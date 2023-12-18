@@ -51,7 +51,7 @@ namespace MusicOrganizer.Controllers
     public ActionResult AddAlbum(int id)
     {
       Artist thisArtist = _db.Artists.FirstOrDefault(artists => artists.ArtistId == id);
-      ViewBag.AlbumId = new SelectList(_db.Albums, "AlbumId", "Name");
+      ViewBag.AlbumId = new SelectList(_db.Albums, "AlbumId", "Title");
       return View(thisArtist);
     }
 

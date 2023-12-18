@@ -1,0 +1,27 @@
+@{
+  Layout = "_Layout";
+}
+
+@using MusicOrganizer.Models
+@model MusicOrganizer.Models.Album
+
+<h2>Album Details</h2>
+<hr />
+<h3>@Html.DisplayNameFor(model => model.Title): @Html.DisplayFor(model => model.Title)</h3>
+@* <h3>Enrollment Date: @Html.DisplayFor(model => model.EnrollmentDate)</h3> *@
+
+@if(@Model.JoinEntities.Count == 0)
+{
+  <p>This album does not have any artists yet!</p>
+}
+else
+{
+  <h4>This album has the following artists:</h4>
+  <ul>
+    @foreach(AlbumArtist join in Model.JoinEntities)
+    {
+      <li>@join.Album.Title</li>
+    }
+  </ul>
+}
+<p>@Html.ActionLink("Back to list", "Index")</p>

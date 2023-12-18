@@ -1,0 +1,18 @@
+@{
+  Layout = "_Layout";
+}
+
+@model MusicOrganizer.Models.Album
+@using (Html.BeginForm())
+{
+  @Html.LabelFor(model => model.Title)
+  @Html.TextBoxFor(model => model.Title)
+  @* @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger", @style = "font-weight: 600;" }) *@
+  <br>
+  @Html.LabelFor(model => model.ArtURL)
+  @Html.TextBoxFor(model => model.ArtURL)
+  @* @Html.ValidationMessageFor(model => model.EnrollmentDate, "", new { @class = "text-danger", @style = "font-weight: 600;" }) *@
+  <br>
+  <input type="submit" value="Add new album"/>
+}
+<p>@Html.ActionLink("Show all albums", "Index")</p>

@@ -1,0 +1,17 @@
+@{
+  Layout = "_Layout";
+}
+
+@using MusicOrganizer.Models;
+
+<h1>Albums</h1>
+
+<ul>
+  @foreach(Album album in Model)
+  {
+    <li>@Html.ActionLink($"{album.Title}", "Details", new {id = album.AlbumId})</li>
+  }
+</ul>
+
+<p>@Html.ActionLink("Add new album", "Create")</p>
+<p>@Html.ActionLink("Home", "Index", "Home")</p>

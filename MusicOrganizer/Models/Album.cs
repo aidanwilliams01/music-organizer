@@ -6,7 +6,7 @@ namespace MusicOrganizer.Models
   {
     public string Title { get; set; }
     public string ArtURL { get; set; }
-    public int AlbumId { get; }
+    public int AlbumId { get; set; }
     public List<AlbumArtist> JoinEntities { get; }
   }
 }

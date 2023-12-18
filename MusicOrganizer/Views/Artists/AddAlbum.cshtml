@@ -1,0 +1,21 @@
+@{
+  Layout = "_Layout";
+}
+
+@model MusicOrganizer.Models.Artist
+
+<h2>Add an album</h2>
+
+<h4>Add an album to this artist: @Html.DisplayFor(model => model.Name)</h4>
+
+@using (Html.BeginForm())
+{
+  @Html.HiddenFor(model => model.ArtistId)
+
+  @Html.Label("Select album")
+  @Html.DropDownList("AlbumId")
+
+  <input type="submit" value="Save" />
+}
+
+<p>@Html.ActionLink("Back to list", "Index")</p>
