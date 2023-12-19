@@ -1,6 +1,39 @@
 @{
   Layout = "_Layout";
 }
+
+@using MusicOrganizer.Models;
+
 <h1>Welcome</h1>
-<p>@Html.ActionLink("See all albums", "Index", "Albums")</p>
-<p>@Html.ActionLink("See all artists", "Index", "Artists")</p>
+
+<hr>
+
+<h4>Artists</h4>
+@if (Model["artists"].Length == 0)
+{
+  <p>No artists have been added yet!</p>
+}
+<ul>
+  @foreach (Artist art in Model["artists"])
+  {
+    <li>@Html.ActionLink(@art.Name, "Details", "Artists", new { id = @art.ArtistId})</li>
+  }
+</ul>
+
+<h4>Albums</h4>
+@if (Model["albums"].Length == 0)
+{
+  <p>No albums have been added yet!</p>
+}
+<ul>
+  @foreach (Album album in Model["albums"])
+  {
+    <li>@Html.ActionLink(@album.Title, "Details", "Albums", new { id = @album.AlbumId })</li>
+  }
+</ul>
+
+<hr>
+
+
+<p>@Html.ActionLink("Manage albums", "Index", "Albums")</p>
+<p>@Html.ActionLink("Manage artists", "Index", "Artists")</p>

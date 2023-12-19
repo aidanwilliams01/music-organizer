@@ -7,8 +7,8 @@
 
 <h2>Album Details</h2>
 <hr />
-<h3>@Html.DisplayNameFor(model => model.Title): @Html.DisplayFor(model => model.Title)</h3>
-@* <h3>Enrollment Date: @Html.DisplayFor(model => model.EnrollmentDate)</h3> *@
+<img src=@Model.ArtURL>
+<h3>@Html.DisplayFor(model => model.Title)</h3>
 
 @if(@Model.JoinEntities.Count == 0)
 {

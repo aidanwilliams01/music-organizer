@@ -5,12 +5,11 @@
 @model MusicOrganizer.Models.Artist
 
 <h4>Add a new artist</h4>
-@* <p>@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @style = "font-weight: 600;" })</p>
-<p>@Html.ValidationMessageFor(model => model.Number, "", new { @class = "text-danger", @style = "font-weight: 600;" })</p> *@
 @using (Html.BeginForm())
 {
   @Html.LabelFor(model => model.Name)
   @Html.TextBoxFor(model => model.Name)
+  @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @style = "font-weight: 600;" })
   <br>
   <input type="submit" value="Add new artist"/>
 }
